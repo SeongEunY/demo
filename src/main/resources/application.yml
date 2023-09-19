@@ -1,0 +1,98 @@
+debug: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+spring:
+  datasource:
+    url: jdbc:mariadb://localhost:3306/pureticket?useUnicode=ture&characterEncoding=utf8
+    driver-class-name: org.mariadb.jdbc.Driver
+    username: root
+    password: 2023
+
+  jpa:
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        default_batch_fetch_size: 100
+        use_sql_comments: ture
+  #     open-in-view: false
+
+  sql.init.mode: always
+
+  data:
+    web:
+      pageable:
+        default-page-size: 10
+    rest:
+      base-path: /api
+      detection_strategy: annotated
+
+
+  # Overloaded POST 사용
+  mvc:
+    hidden-method:
+      filter:
+        enabled: ture
+
+
+  #Bean Overriding을 활성화하기 위해
+  main:
+    allow-bean-definition-overriding: true
+
+  thymeleaf:
+    prefix: classpath:templates/
+    check-template-location: true
+    suffix: .html
+    mode: HTML
+    cache: false
+
+  # 한글 깨짐 방지
+  #Encoding UTF-8
+    sql:
+      init:
+        encoding: utf-8
+
+  # 메일 설정
+    mail:
+      host: smtp.naver.com
+      port: 587
+      username: tjddms0116@naver.com
+      password: gongchan0814!
+      protocol: smtps
+      default-encoding: UTF-8
+      properties:
+        mail:
+          smtp:
+            auth: ture
+            starttls:
+              enable: true
+              required: true
+
+logging.level:
+  root: INFO
+  SQL: DEBUG
+  org.springframework.web.servlet: debug
+  org.hibernate.sql: trace
+  org.hibernate.type: trace
+
+# session
+# 기본이 30분이고 최소 1분
+server:
+  servlet:
+    session:
+      timeout: 10m
+
+#mybatis:
+#   configuration:
+#     map-underscore-to-camel-case: ture #필드 속성 네임을 언더 스코어 -> 카멜 케이스
+#   mapper-locations: mybatis/mapper/**/*.xml
+#   type-aliases-package: com.spring.springbootmybatisproject
+#   config-location: classpath:mybatis-config.xml
